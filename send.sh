@@ -1,6 +1,12 @@
 #!/bin/bash
 
 case $1 in
+  "started" )
+    EMBED_COLOR=2123412
+    STATUS_MESSAGE="Started"
+    ARTIFACT_URL="$CI_JOB_URL/artifacts/download"
+    ;;
+
   "success" )
     EMBED_COLOR=3066993
     STATUS_MESSAGE="Passed"
@@ -30,7 +36,7 @@ AUTHOR_NAME="$(git log -1 "$CI_COMMIT_SHA" --pretty="%aN")"
 COMMITTER_NAME="$(git log -1 "$CI_COMMIT_SHA" --pretty="%cN")"
 COMMIT_SUBJECT="$(git log -1 "$CI_COMMIT_SHA" --pretty="%s")"
 COMMIT_MESSAGE="$(git log -1 "$CI_COMMIT_SHA" --pretty="%b")" | sed -E ':a;N;$!ba;s/\r{0,1}\n/\\n/g'
-
+STATUS_MESSAGE="$STATUS_MESSAGE $MESSAGE_TAIL"
 
 if [ "$AUTHOR_NAME" == "$COMMITTER_NAME" ]; then
   CREDITS="$AUTHOR_NAME authored & committed"
